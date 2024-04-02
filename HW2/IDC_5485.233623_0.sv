@@ -23,17 +23,30 @@ output logic out_legal_id;
 //---------------------------------------------------------------------
 logic [1:0] n0;
 logic [3:0] n1;
-logic [8:0] sum; //sum Max = 407 < 512(2^9)
+logic [3:0] sum;
 logic [3:0] w1;
 
 //---------------------------------------------------------------------
 //   Your design                        
 //---------------------------------------------------------------------
+logic [3:0] check;
+logic [6:0] sum_temp;
+always @(*) begin
+    if(!rst_n) begin
+        out_legal_id = 0;
+        out_valid = 0;
+    end
+    else begin
+        check = (!sum)? 0 : 10 - sum;
+        out_legal_id = (check == n1)? 1 : 0;
+        out_valid = !w1;
+    end
+end
+
+assign sum_temp = (sum + n0 + n1 * w1);
 
 always @(posedge clk or negedge rst_n) begin
     if(!rst_n) begin
-        out_valid <= 0;
-        out_legal_id <= 0;
         sum <= 0;
         w1 <= 10;
         n0 <= 0;
@@ -43,15 +56,11 @@ always @(posedge clk or negedge rst_n) begin
         if(in_valid) begin
             n0 <= in_id / 10;
             n1 <= in_id - ((in_id / 10) * 10);
-            sum <= sum + n0 + (n1 * w1);
+            sum <= sum_temp - (sum_temp / 10) * 10;
             w1 <= w1 - 1;
         end
         
-        out_valid <= !w1;
-        out_legal_id <= ((sum + n1) % 10 == 0)? 1 : 0;
-        
         if(out_valid) begin
-            out_valid <= 0;
             sum <= 0;
             w1 <= 10;
         end
