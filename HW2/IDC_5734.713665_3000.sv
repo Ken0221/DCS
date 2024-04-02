@@ -63,7 +63,7 @@ always @(posedge clk or negedge rst_n) begin
     else begin
         if(in_valid) begin
             n0 <= in_id / 10;
-            n1 <= in_id % 10;
+            n1 <= in_id - ((in_id / 10) * 10);
             sum <= sum + (n1 * w1) + n0;
             w1 <= w1 - 1;
         end

@@ -22,34 +22,13 @@ output logic out_legal_id;
 //   LOGIC DECLARATION
 //---------------------------------------------------------------------
 logic [1:0] n0;
-logic [3:0] n1, check;
+logic [3:0] n1;
 logic [8:0] sum; //sum Max = 407 < 512(2^9)
 logic [3:0] w1;
 
-logic [6:0] mod1;
-logic [3:0] mod2, tenMinus;
-logic [5:0] c1;
-logic [3:0] c2;
 //---------------------------------------------------------------------
 //   Your design                        
 //---------------------------------------------------------------------
-
-//get_check g1(.num(sum), .out(check));
-// assign check = (10 - (sum % 10)) % 10;
-
-always @(*) begin
-    //sum % 10
-    c1 = sum / 10;
-    mod1 = sum - c1 * 10;
-    c2 = mod1 / 10;
-    mod2 = mod1 - c2 * 10;
-
-    //10 - (sum % 10)
-    tenMinus = 10 - mod2;
-
-    //(10 - (sum % 10) % 10)
-    check = (tenMinus == 10)? 0: tenMinus;
-end
 
 always @(posedge clk or negedge rst_n) begin
     if(!rst_n) begin
@@ -63,13 +42,13 @@ always @(posedge clk or negedge rst_n) begin
     else begin
         if(in_valid) begin
             n0 <= in_id / 10;
-            n1 <= in_id % 10;
+            n1 <= in_id - ((in_id / 10) * 10);
             sum <= sum + (n1 * w1) + n0;
             w1 <= w1 - 1;
         end
         
         out_valid <= !w1;
-        out_legal_id <= (n1 == check)? 1 : 0;
+        out_legal_id <= ((sum + n1) % 10 == 0)? 1 : 0;
         
         if(out_valid) begin
             out_valid <= 0;
