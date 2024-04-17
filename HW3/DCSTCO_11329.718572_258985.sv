@@ -19,6 +19,7 @@ module DCSTCO(
 	product_out,
 	number_out
 );
+asd
 
 //---------------------------------------------------------------------
 //   INPUT AND OUTPUT DECLARATION                         
