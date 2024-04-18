@@ -162,37 +162,35 @@ always @(posedge clk, negedge rst_n) begin //if cur == unsuff pull up valid kitc
 	else begin	
 		if(next_state == S_unsuff) begin
 			product_out <= (!IsSuff_nugget || !IsSuff_apple);
-            valid_kitch <= (!IsSuff_nugget || !IsSuff_fried_rice);
-            valid_refri <= (!IsSuff_apple || !IsSuff_peach);
 			if(!IsSuff_nugget) begin
 				// product_out <= addr_kc_nugget;
 				number_out <= FULL - nugget_in_shop;
-				// valid_kitch <= 1;
-				// valid_refri <= 0;
+				valid_kitch <= 1;
+				valid_refri <= 0;
 			end
 			else if(!IsSuff_apple) begin
 				// product_out <= addr_fr_apple;
 				number_out <= FULL - apple_in_shop;
-				// valid_refri <= 1;
-				// valid_kitch <= 0;
+				valid_refri <= 1;
+				valid_kitch <= 0;
 			end
 			else if(!IsSuff_peach) begin
 				// product_out <= addr_fr_peach;
 				number_out <= FULL - peach_in_shop;
-				// valid_refri <= 1;
-				// valid_kitch <= 0;
+				valid_refri <= 1;
+				valid_kitch <= 0;
 			end
 			else if(!IsSuff_fried_rice) begin
 				// product_out <= addr_kc_fried_rice;
 				number_out <= FULL - fried_rice_in_shop;
-				// valid_kitch <= 1;
-				// valid_refri <= 0;
+				valid_kitch <= 1;
+				valid_refri <= 0;
 			end
 			else begin
 				// product_out <= 0;
 				number_out <= 0;
-				// valid_kitch <= 0;
-				// valid_refri <= 0;
+				valid_kitch <= 0;
+				valid_refri <= 0;
 			end
 		end
 		else begin
