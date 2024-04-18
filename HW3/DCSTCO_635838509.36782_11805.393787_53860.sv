@@ -162,18 +162,19 @@ always @(posedge clk, negedge rst_n) begin //if cur == unsuff pull up valid kitc
 	else begin	
 		if(next_state == S_unsuff) begin
 			product_out <= (!IsSuff_nugget || !IsSuff_apple);
-			if(!IsSuff_nugget) begin
-				// product_out <= addr_kc_nugget;
-				number_out <= FULL - nugget_in_shop;
-				valid_kitch <= 1;
-				valid_refri <= 0;
-			end
-			else if(!IsSuff_apple) begin
+			if(!IsSuff_apple) begin
 				// product_out <= addr_fr_apple;
 				number_out <= FULL - apple_in_shop;
 				valid_refri <= 1;
 				valid_kitch <= 0;
 			end
+			else if(!IsSuff_nugget) begin
+				// product_out <= addr_kc_nugget;
+				number_out <= FULL - nugget_in_shop;
+				valid_kitch <= 1;
+				valid_refri <= 0;
+			end
+			
 			else if(!IsSuff_peach) begin
 				// product_out <= addr_fr_peach;
 				number_out <= FULL - peach_in_shop;
