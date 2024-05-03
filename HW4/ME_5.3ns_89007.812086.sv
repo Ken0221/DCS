@@ -24,8 +24,6 @@ output logic signed [2:0] out_vector;
 //---------------------------------------------------------------------
 logic [7:0] curr_block[0:15];
 logic [11:0] sum_array[0:63];
-logic [7:0] data;
-logic signed [2:0] vector_x, vector_y;
 logic out_cnt;
 logic IsInvalid;
 logic signed [2:0] min_x, min_y;
@@ -33,14 +31,12 @@ logic signed [2:0] min_x_t, min_y_t;
 
 
 logic [11:0] min_num;
-logic [5:0] check;
 
 logic [3:0] in_cnt;
 logic [5:0] abs_cnt;
 //---------------------------------------------------------------------
 //   Your design                        
 //---------------------------------------------------------------------
-assign check = (abs_cnt >> 4);
 assign min_x_t = (min_num > sum_array[27])? 2: min_x;
 assign min_y_t = (min_num > sum_array[27])? -2: min_y;
 
